@@ -13,7 +13,7 @@ SECRET_KEY = 'SECRET-KEY-AUTAMENTE-SECRETA'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['testserver', '*']
 
 
 # Application definition

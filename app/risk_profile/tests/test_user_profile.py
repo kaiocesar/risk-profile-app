@@ -4,7 +4,7 @@ from django.urls import reverse
 from rest_framework.test import APIClient
 from rest_framework import status
 
-RISK_ENDPOINT = reverse('risk:create')
+RISK_ENDPOINT = reverse('create')
 
 
 class UserProfileTest(TestCase):
@@ -14,7 +14,7 @@ class UserProfileTest(TestCase):
 
     def test_empty_payload(self):
         payload = {}
-        res = self.client.post(RISK_ENDPOINT, payload)
+        res = self.client.post(RISK_ENDPOINT, payload, format='json')
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_full_payload(self):
@@ -27,7 +27,7 @@ class UserProfileTest(TestCase):
             "risk_questions": [0, 1, 0],
             "vehicle": {"year": 2018}
         }
-        res = self.client.post(RISK_ENDPOINT, payload)
+        res = self.client.post(RISK_ENDPOINT, payload, format='json')
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
 
     def test_invalid_payload(self):
@@ -40,5 +40,5 @@ class UserProfileTest(TestCase):
             "risk_questions": [0, 1, 0],
             "vehicle": {"year": 2198}
         }
-        res = self.client.post(RISK_ENDPOINT, payload)
+        res = self.client.post(RISK_ENDPOINT, payload, format='json')
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
