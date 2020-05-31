@@ -12,6 +12,9 @@ to run up the application, you should type this command on the terminal in the p
 to test it, run:
 - `make test`
 
+to lint the code, run:
+- `make lint` 
+
 to finish the container, run:
 - `make dw`
 
