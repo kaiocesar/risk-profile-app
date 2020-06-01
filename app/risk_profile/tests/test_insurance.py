@@ -61,3 +61,16 @@ class InsuranceTest(TestCase):
         self.insurance.calculate_vehicle_age()
 
         self.assertEqual(self.insurance.auto, 1)
+
+    def test_calculate_risk_profile(self):
+        self.insurance.calculate_disability()
+        self.insurance.calculate_age()
+        self.insurance.calculate_income()
+        self.insurance.calculate_house()
+        self.insurance.calculate_dependents()
+        self.insurance.calculate_marital_status()
+
+        self.assertEqual(self.insurance.auto, -1)
+        self.assertEqual(self.insurance.disability, 'ineligible')
+        self.assertEqual(self.insurance.home, -1)
+        self.assertEqual(self.insurance.life, 1)
