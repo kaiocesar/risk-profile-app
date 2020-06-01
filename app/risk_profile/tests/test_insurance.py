@@ -31,8 +31,8 @@ class InsuranceTest(TestCase):
         self.assertEqual(self.insurance.home, -1)
         self.assertEqual(self.insurance.life, -1)
 
-    def test_check_income_above_200k(self):
-        self.insurance.calculate_icome()
+    def test_calculate_income_above(self):
+        self.insurance.calculate_income()
 
         self.assertEqual(self.insurance.auto, -1)
         self.assertEqual(self.insurance.disability, -1)
@@ -45,7 +45,7 @@ class InsuranceTest(TestCase):
         self.assertEqual(self.insurance.home, 0)
         self.assertEqual(self.insurance.disability, 0)
 
-    def test_calculte_dependents(self):
+    def test_calculate_dependents(self):
         self.insurance.calculate_dependents()
 
         self.assertEqual(self.insurance.disability, 1)
@@ -57,7 +57,7 @@ class InsuranceTest(TestCase):
         self.assertEqual(self.insurance.life, 1)
         self.assertEqual(self.insurance.disability, -1)
 
-    def test_calcule_vehicle_age(self):
+    def test_calculate_vehicle_age(self):
         self.insurance.calculate_vehicle_age()
 
         self.assertEqual(self.insurance.auto, 1)
