@@ -13,6 +13,7 @@ class RiskProfileViewSet(viewsets.ViewSet):
             data=request.data)
 
         if serializer.is_valid():
+
             return Response(
                 serializer.data,
                 status=status.HTTP_201_CREATED)
