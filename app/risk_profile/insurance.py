@@ -86,3 +86,12 @@ class Insurance(Score):
             result = date.today().year - vehicle['year']
             if result <= 5:
                 self.auto = append_value(self.auto, 1)
+
+    def calculate_risk_profile(self):
+        self.calculate_disability()
+        self.calculate_age()
+        self.calculate_income()
+        self.calculate_house()
+        self.calculate_dependents()
+        self.calculate_marital_status()
+        self.calculate_vehicle_age()

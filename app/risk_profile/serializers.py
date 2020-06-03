@@ -1,7 +1,5 @@
 from rest_framework import serializers
 
-from risk_profile.insurance import Profile
-
 MARITAL_STATUS = ('single', 'married')
 
 
@@ -25,6 +23,3 @@ class RiskProfileSerializers(serializers.Serializer):
             'risk_questions',
             'vehicle'
         )
-
-    def create(self, validated_data):
-        return Profile(**validated_data)

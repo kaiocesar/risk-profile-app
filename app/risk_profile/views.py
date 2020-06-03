@@ -2,6 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 
 from .serializers import RiskProfileSerializers
+from risk_profile.insurance import Profile, Insurance
 
 
 class RiskProfileViewSet(viewsets.ViewSet):
@@ -13,9 +14,17 @@ class RiskProfileViewSet(viewsets.ViewSet):
             data=request.data)
 
         if serializer.is_valid():
-
+            profile = Profile(**serializer.data)
+            insurance = Insurance(profile)
+            insurance.calculate_risk_profile()
+            result = {
+                'auto': insurance.auto,
+                'disability': insurance.disability,
+                'home': insurance.home,
+                'life': insurance.life
+            }
             return Response(
-                serializer.data,
+                result,
                 status=status.HTTP_201_CREATED)
 
         return Response(

@@ -27,9 +27,16 @@ class UserProfileTest(TestCase):
             "risk_questions": [0, 1, 0],
             "vehicle": {"year": 2018}
         }
+        output = {
+            "auto": "regular",
+            "disability": "ineligible",
+            "home": "economic",
+            "life": "regular"
+        }
         res = self.client.post(RISK_ENDPOINT, data=payload, format='json')
 
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(res.data, output)
 
     def test_invalid_payload(self):
         payload = {
