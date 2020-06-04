@@ -20,7 +20,7 @@ class InsuranceTest(TestCase):
         profile = Profile(**self.payload)
         insurance = Insurance(profile)
         insurance.calculate_disability()
-        self.assertEqual(insurance.disability, 'ineligible')
+        self.assertEqual(insurance.disability, -1)
 
     def test_calculate_age(self):
         profile = Profile(**self.payload)
@@ -28,7 +28,7 @@ class InsuranceTest(TestCase):
         insurance.calculate_age()
 
         self.assertEqual(insurance.auto, 0)
-        self.assertEqual(insurance.disability_number, 0)
+        self.assertEqual(insurance.disability, 0)
         self.assertEqual(insurance.home, 0)
         self.assertEqual(insurance.life, 0)
 
@@ -38,7 +38,7 @@ class InsuranceTest(TestCase):
         insurance.calculate_income()
 
         self.assertEqual(insurance.auto, 0)
-        self.assertEqual(insurance.disability_number, 0)
+        self.assertEqual(insurance.disability, 0)
         self.assertEqual(insurance.home, 0)
         self.assertEqual(insurance.life, 0)
 
@@ -48,14 +48,14 @@ class InsuranceTest(TestCase):
         insurance.calculate_house()
 
         self.assertEqual(insurance.home, 0)
-        self.assertEqual(insurance.disability_number, 0)
+        self.assertEqual(insurance.disability, 0)
 
     def test_calculate_dependents(self):
         profile = Profile(**self.payload)
         insurance = Insurance(profile)
         insurance.calculate_dependents()
 
-        self.assertEqual(insurance.disability_number, 1)
+        self.assertEqual(insurance.disability, 1)
         self.assertEqual(insurance.life, 1)
 
     def test_calculate_marital_status(self):
@@ -65,7 +65,7 @@ class InsuranceTest(TestCase):
 
         self.assertEqual(insurance.auto, 0)
         self.assertEqual(insurance.life, 1)
-        self.assertEqual(insurance.disability_number, 0)
+        self.assertEqual(insurance.disability, 0)
 
     def test_calculate_vehicle_age(self):
         profile = Profile(**self.payload)
@@ -85,7 +85,19 @@ class InsuranceTest(TestCase):
         insurance.calculate_marital_status()
         insurance.calculate_vehicle_age()
 
-        self.assertEqual(insurance.auto, 1)
-        self.assertEqual(insurance.disability, 'ineligible')
-        self.assertEqual(insurance.home, 0)
-        self.assertEqual(insurance.life, 2)
+        self.assertEqual(
+            insurance.get_translated_field('auto'),
+            'regular'
+        )
+        self.assertNotEqual(
+            insurance.get_translated_field('disability'),
+            'ineligible'
+        )
+        self.assertEqual(
+            insurance.get_translated_field('home'),
+            'economic'
+        )
+        self.assertEqual(
+            insurance.get_translated_field('life'),
+            'regular'
+        )

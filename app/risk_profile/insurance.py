@@ -22,8 +22,7 @@ class Profile(object):
 
 class Score:
     auto = 0
-    disability = ''
-    disability_number = 0
+    disability = 0
     home = 0
     life = 0
 
@@ -37,17 +36,17 @@ class Insurance(Score):
         if self.profile.income == 0\
             or not self.profilfe.vehicle\
                 or not self.profile.house:
-            self.disability = 'ineligible'
+            self.disability = -1
 
     def calculate_age(self):
         age = self.profile.age
         if age > 60:
-            self.disability = 'ineligible'
+            self.disability = -1
         else:
             point = 2 if age < 30 else 1
             self.auto = deduct_value(self.auto, point)
-            self.disability_number = deduct_value(
-                self.disability_number, point)
+            self.disability = deduct_value(
+                self.disability, point)
             self.home = deduct_value(self.home, point)
             self.life = deduct_value(self.life, point)
 
@@ -55,8 +54,8 @@ class Insurance(Score):
         if self.profile.income > 200000:
             point = 1
             self.auto = deduct_value(self.auto, point)
-            self.disability_number = deduct_value(
-                self.disability_number, point)
+            self.disability = deduct_value(
+                self.disability, point)
             self.home = deduct_value(self.home, point)
             self.life = deduct_value(self.life, point)
 
@@ -65,19 +64,19 @@ class Insurance(Score):
         if house:
             if house['ownership_status'] == 'mortgaged':
                 self.home = append_value(self.home, 1)
-                self.disability_number = append_value(
-                    self.disability_number, 1)
+                self.disability = append_value(
+                    self.disability, 1)
 
     def calculate_dependents(self):
         if self.profile.dependents:
-            self.disability_number = append_value(
-                self.disability_number, 1)
+            self.disability = append_value(
+                self.disability, 1)
             self.life = append_value(self.life, 1)
 
     def calculate_marital_status(self):
         if self.profile.marital_status == 'married':
-            self.disability_number = deduct_value(
-                self.disability_number, 1)
+            self.disability = deduct_value(
+                self.disability, 1)
             self.life = append_value(self.life, 1)
 
     def calculate_vehicle_age(self):
@@ -95,3 +94,12 @@ class Insurance(Score):
         self.calculate_dependents()
         self.calculate_marital_status()
         self.calculate_vehicle_age()
+
+    def get_translated_field(self, field):
+        insurance_value = getattr(self, field)
+        if insurance_value <= 0:
+            return 'economic'
+        elif insurance_value >= 3:
+            return 'responsible'
+        else:
+            return 'regular'
