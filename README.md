@@ -25,3 +25,7 @@ to finish the container, run:
 ### CI
 
 [![Build Status](https://travis-ci.com/kaiocesar/risk-profile-app.svg?branch=master)](https://travis-ci.com/kaiocesar/risk-profile-app)
+
+
+### How this project was developed?
+follow the flow by viewing the [commits history](https://github.com/kaiocesar/risk-profile-app/commits/master)
