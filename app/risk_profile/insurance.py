@@ -20,7 +20,7 @@ class Score:
     life = 0
 
 
-class Insurance(Score):
+class InsuranceCalculate(Score):
 
     def __init__(self, profile):
         self.profile = profile

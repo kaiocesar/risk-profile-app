@@ -1,5 +1,5 @@
 from django.test import TestCase
-from risk_profile.insurance import Insurance, Profile
+from risk_profile.insurance import InsuranceCalculate, Profile
 
 
 class InsuranceTest(TestCase):
@@ -18,13 +18,13 @@ class InsuranceTest(TestCase):
 
     def test_calculate_disability(self):
         profile = Profile(**self.payload)
-        insurance = Insurance(profile)
+        insurance = InsuranceCalculate(profile)
         insurance.calculate_disability()
         self.assertEqual(insurance.disability, 'ineligible')
 
     def test_calculate_age(self):
         profile = Profile(**self.payload)
-        insurance = Insurance(profile)
+        insurance = InsuranceCalculate(profile)
         insurance.calculate_age()
 
         self.assertEqual(insurance.auto, 0)
@@ -34,7 +34,7 @@ class InsuranceTest(TestCase):
 
     def test_calculate_income(self):
         profile = Profile(**self.payload)
-        insurance = Insurance(profile)
+        insurance = InsuranceCalculate(profile)
         insurance.calculate_income()
 
         self.assertEqual(insurance.auto, 0)
@@ -44,7 +44,7 @@ class InsuranceTest(TestCase):
 
     def test_calculate_house_status(self):
         profile = Profile(**self.payload)
-        insurance = Insurance(profile)
+        insurance = InsuranceCalculate(profile)
         insurance.calculate_house()
 
         self.assertEqual(insurance.home, 0)
@@ -52,7 +52,7 @@ class InsuranceTest(TestCase):
 
     def test_calculate_dependents(self):
         profile = Profile(**self.payload)
-        insurance = Insurance(profile)
+        insurance = InsuranceCalculate(profile)
         insurance.calculate_dependents()
 
         self.assertEqual(insurance.disability, 1)
@@ -60,7 +60,7 @@ class InsuranceTest(TestCase):
 
     def test_calculate_marital_status(self):
         profile = Profile(**self.payload)
-        insurance = Insurance(profile)
+        insurance = InsuranceCalculate(profile)
         insurance.calculate_marital_status()
 
         self.assertEqual(insurance.auto, 0)
@@ -69,14 +69,14 @@ class InsuranceTest(TestCase):
 
     def test_calculate_vehicle_age(self):
         profile = Profile(**self.payload)
-        insurance = Insurance(profile)
+        insurance = InsuranceCalculate(profile)
         insurance.calculate_vehicle_age()
 
         self.assertEqual(insurance.auto, 1)
 
     def test_calculate_risk_profile(self):
         profile = Profile(**self.payload)
-        insurance = Insurance(profile)
+        insurance = InsuranceCalculate(profile)
         insurance.calculate_disability()
         insurance.calculate_age()
         insurance.calculate_income()
