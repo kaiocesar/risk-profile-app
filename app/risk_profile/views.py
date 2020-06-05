@@ -16,15 +16,9 @@ class RiskProfileViewSet(viewsets.ViewSet):
         if serializer.is_valid():
             profile = Profile(**serializer.data)
             insurance = Insurance(profile)
-            insurance.calculate_risk_profile()
-            result = {
-                'auto': insurance.auto,
-                'disability': insurance.disability,
-                'home': insurance.home,
-                'life': insurance.life
-            }
+
             return Response(
-                result,
+                insurance.calculate_risk_profile(),
                 status=status.HTTP_201_CREATED)
 
         return Response(

@@ -20,7 +20,7 @@ class InsuranceTest(TestCase):
         profile = Profile(**self.payload)
         insurance = Insurance(profile)
         insurance.calculate_disability()
-        self.assertEqual(insurance.disability, -1)
+        self.assertEqual(insurance.disability, 'ineligible')
 
     def test_calculate_age(self):
         profile = Profile(**self.payload)
@@ -86,18 +86,18 @@ class InsuranceTest(TestCase):
         insurance.calculate_vehicle_age()
 
         self.assertEqual(
-            insurance.get_translated_field('auto'),
+            insurance.translated_field('auto'),
             'regular'
         )
-        self.assertNotEqual(
-            insurance.get_translated_field('disability'),
+        self.assertEqual(
+            insurance.translated_field('disability'),
             'ineligible'
         )
         self.assertEqual(
-            insurance.get_translated_field('home'),
+            insurance.translated_field('home'),
             'economic'
         )
         self.assertEqual(
-            insurance.get_translated_field('life'),
+            insurance.translated_field('life'),
             'regular'
         )
