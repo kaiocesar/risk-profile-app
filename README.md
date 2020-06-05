@@ -9,6 +9,9 @@ Make sure you've a docker installed in your S.O because it's needed to easily up
 to run up the application, you should type this command on the terminal in the project root:
 - `make up` 
 
+(in the first project execution) open another terminal tab and run:
+- `make migrate`
+
 to test it, run:
 - `make test`
 

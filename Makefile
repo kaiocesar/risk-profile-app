@@ -11,3 +11,6 @@ test:
 
 lint:
 	docker-compose run app sh -c "flake8"
+
+migrate:
+	docker-compose run app sh -c "python manage.py migrate"
