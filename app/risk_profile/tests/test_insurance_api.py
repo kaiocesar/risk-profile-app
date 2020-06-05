@@ -84,12 +84,33 @@ class InsuranceApiTest(TestCase):
             "age": 60,
             "dependents": 1,
             "house": {"ownership_status": "owned"},
-            "income": 100000,
+            "income": 250000,
             "marital_status": "married",
             "risk_questions": [0, 0, 0],
-            "vehicle": {"year": 2010}
+            "vehicle": {"year": 2016}
         }
 
         res = self.client.post(RISK_ENDPOINT, data=payload, format='json')
 
-        self.assertNotEqual(res.data['disability'], 'ineligible')
+        self.assertEqual(res.data['auto'], 'regular')
+        self.assertEqual(res.data['disability'], 'economic')
+        self.assertEqual(res.data['home'], 'economic')
+        self.assertEqual(res.data['life'], 'regular')
+
+    def test_61_years_ineligible_profile(self):
+        payload = {
+            "age": 61,
+            "dependents": 0,
+            "house": {"ownership_status": "mortgaged"},
+            "income": 150000,
+            "marital_status": "single",
+            "risk_questions": [1, 0, 0],
+            "vehicle": {"year": 1975}
+        }
+
+        res = self.client.post(RISK_ENDPOINT, data=payload, format='json')
+
+        self.assertEqual(res.data['auto'], 'economic')
+        self.assertEqual(res.data['disability'], 'ineligible')
+        self.assertEqual(res.data['home'], 'regular')
+        self.assertEqual(res.data['life'], 'ineligible')
