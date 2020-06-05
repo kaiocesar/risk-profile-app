@@ -35,6 +35,7 @@ class InsuranceCalculate(Score):
         age = self.profile.age
         if age > 60:
             self.disability = 'ineligible'
+            self.life = 'ineligible'
         else:
             point = 2 if age < 30 else 1
             self.auto = deduct_point(self.auto, point)
