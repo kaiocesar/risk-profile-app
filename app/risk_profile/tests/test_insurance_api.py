@@ -43,7 +43,7 @@ class InsuranceApiTest(TestCase):
         res = self.client.post(RISK_ENDPOINT, data=payload, format='json')
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
 
-    def test_output_valid_payload(self):
+    def test_35_years_regular_profile(self):
         payload = {
             "age": 35,
             "dependents": 2,
@@ -114,3 +114,57 @@ class InsuranceApiTest(TestCase):
         self.assertEqual(res.data['disability'], 'ineligible')
         self.assertEqual(res.data['home'], 'regular')
         self.assertEqual(res.data['life'], 'ineligible')
+
+    def test_61_years_ineligible_regular_profile(self):
+        payload = {
+            "age": 61,
+            "dependents": 1,
+            "house": {"ownership_status": "owned"},
+            "income": 15000000,
+            "marital_status": "married",
+            "risk_questions": [1, 0, 0],
+            "vehicle": {"year": 2019}
+        }
+
+        res = self.client.post(RISK_ENDPOINT, data=payload, format='json')
+
+        self.assertEqual(res.data['auto'], 'regular')
+        self.assertEqual(res.data['disability'], 'ineligible')
+        self.assertEqual(res.data['home'], 'economic')
+        self.assertEqual(res.data['life'], 'ineligible')
+
+    def test_18_years_economic_profile(self):
+        payload = {
+            "age": 18,
+            "dependents": 0,
+            "house": {},
+            "income": 0,
+            "marital_status": "single",
+            "risk_questions": [1, 0, 0],
+            "vehicle": {}
+        }
+
+        res = self.client.post(RISK_ENDPOINT, data=payload, format='json')
+
+        self.assertEqual(res.data['auto'], 'economic')
+        self.assertEqual(res.data['disability'], 'ineligible')
+        self.assertEqual(res.data['home'], 'economic')
+        self.assertEqual(res.data['life'], 'economic')
+
+    def test_18_years_regular_profile(self):
+        payload = {
+            "age": 18,
+            "dependents": 1,
+            "house": {"ownership_status": "mortgaged"},
+            "income": 0,
+            "marital_status": "single",
+            "risk_questions": [1, 0, 0],
+            "vehicle": {"year": 2000}
+        }
+
+        res = self.client.post(RISK_ENDPOINT, data=payload, format='json')
+
+        self.assertEqual(res.data['auto'], 'economic')
+        self.assertEqual(res.data['disability'], 'ineligible')
+        self.assertEqual(res.data['home'], 'regular')
+        self.assertEqual(res.data['life'], 'regular')
