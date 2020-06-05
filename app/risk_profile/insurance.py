@@ -27,7 +27,7 @@ class InsuranceCalculate(Score):
 
     def calculate_disability(self):
         if self.profile.income <= 0\
-            or not self.profilfe.vehicle\
+            or not self.profile.vehicle\
                 or not self.profile.house:
             self.disability = 'ineligible'
 
